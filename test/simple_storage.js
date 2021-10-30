@@ -37,7 +37,30 @@ contract("SimpleStorage", function (accounts) {
 
         assert.equal(storedData, setExpected, `${setExpected} was not stored`)
       })
-    });
+    })
+
+    // Test 4 Only owner should be able to set number
+    it("should not let someone else change the variable", async () => {
+      
+      const [owner, badJoe ] = accounts; //change the accounts array to names
+      const ssInstance = await SimpleStorage.new(42, {from:owner}); 
+      
+      try {
+        await ssInstance.setStorageData(22, {from: badJoe })
+      } catch(error) {
+
+      }
+      const balance = await web3.eth.getBalance(accounts[3])
+      console.log(balance);
+      const storedData = await ssInstance.getStoredData.call();
+      assert.equal(storedData, 42, "storedData was not changed")
+      
+
+
+
+    })
+
+
 
 
 });
