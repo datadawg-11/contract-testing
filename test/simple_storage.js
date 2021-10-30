@@ -5,7 +5,7 @@ const SimpleStorage = artifacts.require("SimpleStorage");
  * Ethereum client
  * See docs: https://www.trufflesuite.com/docs/truffle/testing/writing-tests-in-javascript
  */
-contract("SimpleStorage", function (/* accounts */) {
+contract("SimpleStorage", function (accounts) {
 
   // Test 1
   it("should assert true", async function () {
@@ -24,17 +24,18 @@ contract("SimpleStorage", function (/* accounts */) {
     });
 
     // Test 3
-    describe('Functionality', () => { 
-      it("should store a new value 42", async () => { 
+    describe("Functionality", () => { 
+      it("should store the value 42", async () => { 
         // grab the contract we need
         const ssInstance = await SimpleStorage.deployed(); 
 
+        const setExpected = 42;
         // change the number! 
-        await ssInstance.setStoredDate(42, { from: accounts[0] }); 
+        await ssInstance.setStoredData(setExpected, { from: accounts[0] }); 
 
-        const storedDate = await SimpleStorage.getStoredData.call();
+        const storedData = await ssInstance.getStoredData.call();
 
-        assert.equal(storedData, 42, `${storedData} was not stored`)
+        assert.equal(storedData, setExpected, `${setExpected} was not stored`)
       })
     });
 
